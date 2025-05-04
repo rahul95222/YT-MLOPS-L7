@@ -10,7 +10,7 @@ n = st.number_input("Enter an integer", value=1, step=1)
 
 # Calculate results
 square = n ** 2
-cube = n ** 3
+cube = n ** 4
 fifth_power = n ** 5
 
 # Display results
