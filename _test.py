@@ -1,33 +1,16 @@
-import pytest
+from streamlit.testing.v1 import AppTest
 
-# Function to test square
-def square(n):
-    return n ** 2
+def test_streamlit_app():
+    at = AppTest.from_file("app.py")  # replace with your actual app filename
+    at.run()
 
-# Function to test cube
-def cube(n):
-    return n ** 3
+    # Check the title is rendered
+    assert at.title[0].value == "Power Calculator"
 
-# Function to test fifth power
-def fifth_power(n):
-    return n ** 5
+    # Simulate entering the number 3
+    at.number_input[0].set_value(3).run()
 
-# Testing the square function
-def test_square():
-    assert square(2) == 4, "Test Failed: Square of 2 should be 4"
-    assert square(3) == 9, "Test Failed: Square of 3 should be 9"
-
-# Testing the cube function
-def test_cube():
-    assert cube(2) == 8, "Test Failed: Cube of 2 should be 8"
-    assert cube(3) == 27, "Test Failed: Cube of 3 should be 27"
-
-# Testing the fifth power function
-def test_fifth_power():
-    assert fifth_power(2) == 32, "Test Failed: Fifth power of 2 should be 32"
-    assert fifth_power(3) == 243, "Test Failed: Fifth power of 3 should be 243"
-
-# Test for invalid input
-def test_invalid_input():
-    with pytest.raises(TypeError):
-        square("string")
+    # Check the calculated outputs
+    assert any("The square of 3 is: 9" in el.value for el in at.write), "Square output not found"
+    assert any("The cube of 3 is: 27" in el.value for el in at.write), "Cube output not found"
+    assert any("The fifth power of 3 is: 243" in el.value for el in at.write), "Fifth power output not found"
